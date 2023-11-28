@@ -14,7 +14,7 @@ class New(FormView):
 
     model = Libro
     template_name = 'biblioteca/new.html'
-    fields = []
+    fields = ["titulo", "rating", "resumen"]
     success_url = reverse_lazy("libro_list")
 
 class LibroDetails(DetailView):

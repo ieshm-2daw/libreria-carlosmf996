@@ -7,7 +7,7 @@
 </head>
 <body>
     <form action="{% url 'new' %}" method="POST">
-        {% csrf_token%}
+        {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Dale caña</button>
     </form>
