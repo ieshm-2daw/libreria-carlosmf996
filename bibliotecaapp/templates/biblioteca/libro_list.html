@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Libros listados</title>    
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+</head>
+<body>
+    <h1>Lista de Libros</h1>
+    <ul>
+        {% for libro in libro_list %}
+            <li>
+                <h2><a href="{% url 'libro_details' pk=libro.pk%}">{{ libro.titulo }}</a></h2>
+                <form action="{% url 'libro_edit' pk=libro.pk%}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Editar este libro</button>
+                </form>
+                <a href="{% url 'libro_delete' pk=libro.pk%}" role="button">Borrar</a>
+            </li>
+        {% empty %}
+            <li>No hay libros por mostrar.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

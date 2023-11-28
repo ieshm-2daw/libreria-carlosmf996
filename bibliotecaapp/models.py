@@ -5,9 +5,9 @@ from django.core.validators import MaxValueValidator
 # Create your models here.
 
 class Usuario(AbstractUser):
-    dni = models.CharField(max_length=9)
-    direccion = models.CharField(max_length=200)
-    telefono = models.IntegerField(max_length=9)
+    dni = models.CharField(max_length=9, null=True)
+    direccion = models.CharField(max_length=200, null=True)
+    telefono = models.IntegerField(null=True)
 
     def __str__(self):
         return self.dni
@@ -30,7 +30,7 @@ class Editorial(models.Model):
 
 class Libro(models.Model):
 
-    disponibilidadChoices = (
+    DISPONIBILIDADCHOICES = (
         ('DIS', 'Disponible'),
         ('PRE' , 'Prestado'),
         ('PDP', 'En proceso de prestamo'),
@@ -45,7 +45,7 @@ class Libro(models.Model):
     isbn = models.CharField(max_length=17)
     resumen = models.TextField()
     disponibilidad = models.CharField(max_length=3, 
-                                      choices=disponibilidadChoices.choices, default='DIS')
+                                      choices=DISPONIBILIDADCHOICES, default='DIS')
     portada = models.ImageField(upload_to='portadas/', null=True, blank=True)
 
     def __str__(self):
@@ -53,7 +53,7 @@ class Libro(models.Model):
 
 class Prestamo(models.Model):
 
-    estadoChoices = (
+    ESTADOCHOICES = (
             ('DEV', 'Devuelto'),
             ('PRE' , 'Prestado'),
         )
@@ -63,7 +63,7 @@ class Prestamo(models.Model):
     fechaDevolucion = models.DateField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     estado = models.CharField(max_length=3, 
-                              choices=estadoChoices.choices, default='DEV')
+                              choices=ESTADOCHOICES, default='DEV')
 
     def __str__(self):
         return self.titulo
