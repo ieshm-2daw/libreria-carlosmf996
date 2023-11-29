@@ -6,7 +6,7 @@
 <body>
 
     <h1>Completar formulario</h1>
-    <form action="{% url 'new' %}" method="POST">
+    <form action="{% url 'new' %}" enctype="multipart/form-data" method="POST">
         {% csrf_token%}
         {{ form.as_p }}
         <button type="submit">Dale caña</button>

@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Completar formulario</h1>
-    <form action="{% url 'libro_edit' pk=libro.pk %}" method="POST">
+    <form action="{% url 'libro_edit' pk=libro.pk %}" enctype="multipart/form-data" method="POST">
         {% csrf_token%}
         {{ form.as_p }}
         <button type="submit">Dale caña</button>

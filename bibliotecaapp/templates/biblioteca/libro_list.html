@@ -9,6 +9,9 @@
         {% for libro in libro_list %}
             <li>
                 <h2><a href="{% url 'libro_details' pk=libro.pk%}">{{ libro.titulo }}</a></h2>
+                {% if libro.portada %}
+                    <img src="{{ libro.portada.url }}">
+                {% endif %}
                 <a href="{% url 'libro_delete' pk=libro.pk%}" role="button">Borrar</a>
                 <a href="{% url 'libro_edit' pk=libro.pk%}" role="button">Editar</a>
             </li>
