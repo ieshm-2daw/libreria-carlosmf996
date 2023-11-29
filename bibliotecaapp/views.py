@@ -13,7 +13,7 @@ class LibroList(ListView):
     model = Libro
     template_name = 'biblioteca/libro_list.html'
 
-class New(View):
+'''class New(View):
         
     def get(self, request):
         form=LibroForm()
@@ -25,7 +25,14 @@ class New(View):
             form.save()
 
             return redirect('libro_list')
-        return render(request, 'biblioteca/new.html', {'form': form})
+        return render(request, 'biblioteca/new.html', {'form': form})'''
+
+class New(CreateView):
+
+    model = Libro
+    fields = ["titulo", "autor", "editorial", "rating", "fecha_publicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
+    template_name = 'biblioteca/new.html'
+    success_url = reverse_lazy("libro_list")
 
 class LibroDetails(DetailView):
 
