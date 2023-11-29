@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -11,7 +13,12 @@ from .forms import LibroForm
 class LibroList(ListView):
     
     model = Libro
+    ##queryset = Libro.objects.filter(disponibilidad = "DIS")
     template_name = 'biblioteca/libro_list.html'
+
+    def get_queryset(self):
+        return Libro.objects.filter(disponibilidad="DIS")
+    
 
 '''class New(View):
         
