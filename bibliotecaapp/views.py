@@ -13,11 +13,21 @@ from .forms import LibroForm
 class LibroList(ListView):
     
     model = Libro
-    ##queryset = Libro.objects.filter(disponibilidad = "DIS")
     template_name = 'biblioteca/libro_list.html'
 
-    def get_queryset(self):
-        return Libro.objects.filter(disponibilidad="DIS")
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+
+        context = super().get_context_data(**kwargs)
+
+        context['libros_disponibles'] = Libro.objects.filter(disponibilidad = "DIS")
+        context['libros_prestados'] = Libro.objects.filter(disponibilidad = "PRE")
+
+        return context
+
+    ##queryset = Libro.objects.filter(disponibilidad = "DIS")
+
+    ##def get_queryset(self):
+    ##  return Libro.objects.filter(disponibilidad="DIS")
     
 
 '''class New(View):
