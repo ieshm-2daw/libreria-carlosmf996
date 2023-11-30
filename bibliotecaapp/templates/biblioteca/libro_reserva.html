@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+    <title>Detalles</title>
+</head>
+<body>
+
+    <h1>Confirmar reserva del libro {{ libro.titulo }} </h1>
+
+    <h4>Titulo</h4>
+    <p> {{ libro.titulo }}</p>
+
+    <h4>Autor</h4>
+    <p> {{ libro.autor }}</p>
+
+    <h4>Editorial</h4>
+    <p> {{ libro.editorial }}</p>
+
+    <a href="{% url 'libro_confirmar_reserva' libro_id=libro.id %}" role="button">Confirmar Reserva</a>
+
+</body>
+</html>
