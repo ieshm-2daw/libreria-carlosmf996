@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <h1>¿Confirmar la reserva del siguiente libro?</h1>
+    <h1>¿Confirmar la devolución del siguiente libro?</h1>
 
     <h3>Titulo</h3>
     <p> {{ libro.titulo }}</p>
@@ -19,7 +19,7 @@
     <h3>Editorial</h3>
     <p> {{ libro.editorial }}</p>
 
-    <form action="{% url 'libro_reserva' pk=libro.pk %}" method="POST">
+    <form action="{% url 'libro_devolver' pk=libro.pk %}" method="POST">
         {% csrf_token%}
         <button type="submit">Dale caña</button>
     </form>

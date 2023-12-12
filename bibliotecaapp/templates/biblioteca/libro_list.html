@@ -31,6 +31,7 @@
                 {% endif %}
                 <a href="{% url 'libro_delete' pk=libro.pk%}" role="button">Borrar</a>
                 <a href="{% url 'libro_edit' pk=libro.pk%}" role="button">Editar</a>
+                <a href="{% url 'libro_devolver' pk=libro.pk%}" role="button">Devolver</a>
             </li>
         {% empty %}
             <li>No hay libros por mostrar.</li>

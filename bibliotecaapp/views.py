@@ -1,7 +1,7 @@
-from datetime import date
+from datetime import date, timedelta
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
@@ -71,28 +71,46 @@ class Edit(UpdateView):
     success_url = reverse_lazy("libro_list")
 
 
-class Reserva(DetailView):
+class Reserva(View):
+    
+    def get(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        return render(request, 'biblioteca/libro_reserva.html', {'libro': libro})
 
-    model = Libro
-    fields = ["titulo", "autor", "editorial"]
-    template_name = 'biblioteca/libro_reserva.html'
+    def post(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        libro.disponibilidad = 'PRE'
+        libro.save()
+        
+        fecha_devuelta = date.today() + timedelta(days=15)
 
-class ConfirmarReserva(View):
-
-    def get(self, request, libro_id):
-        libro = Libro.objects.get(pk=libro_id)
-        return render(request, 'biblioteca/libro_list.html', {'libro': libro})
-
-    def post(self, request, libro_id):
-        libro = Libro.objects.get(pk=libro_id)
-
-        prestamo = Prestamo(
-            titulo=libro,
+        Prestamo.objects.create(
+            libro=libro,
             fechaPrestamo=date.today(),
-            fechaDevolucion=None,  
+            fechaDevolucion=fecha_devuelta,
             usuario=request.user,
-            estado='PRE'  
+            estado='PRE'
         )
-        prestamo.save()
+
+        return redirect('libro_list')
+    
+class Devolver(View):
+    
+    def get(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        return render(request, 'biblioteca/libro_devolver.html', {'libro': libro})
+
+    def post(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        libro.disponibilidad = 'DIS'
+        libro.save()
+
+        Prestamo.objects.create(
+            libro=libro,
+            fechaPrestamo=date.today(),
+            fechaDevolucion=date.today(),
+            usuario=request.user,
+            estado='PRE'
+        )
 
         return redirect('libro_list')

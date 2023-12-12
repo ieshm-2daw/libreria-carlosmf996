@@ -58,7 +58,7 @@ class Prestamo(models.Model):
             ('PRE' , 'Prestado'),
         )
  
-    titulo = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     fechaPrestamo = models.DateField()
     fechaDevolucion = models.DateField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -66,4 +66,4 @@ class Prestamo(models.Model):
                               choices=ESTADOCHOICES, default='DEV')
 
     def __str__(self):
-        return self.titulo
+        return self.pk
