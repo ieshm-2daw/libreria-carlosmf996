@@ -10,7 +10,7 @@ class Usuario(AbstractUser):
     telefono = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.dni
+        return self.username
     
 class Autor(models.Model):
     nombre = models.CharField(max_length=50)
@@ -59,11 +59,11 @@ class Prestamo(models.Model):
         )
  
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
-    fechaPrestamo = models.DateField()
-    fechaDevolucion = models.DateField()
+    fechaPrestamo = models.DateField(null=True, blank=True)
+    fechaDevolucion = models.DateField(null=True, blank=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     estado = models.CharField(max_length=3, 
                               choices=ESTADOCHOICES, default='DEV')
 
     def __str__(self):
-        return self.pk
+        return self.libro.titulo

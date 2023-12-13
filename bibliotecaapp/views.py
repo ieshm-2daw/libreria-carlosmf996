@@ -95,22 +95,37 @@ class Reserva(View):
         return redirect('libro_list')
     
 class Devolver(View):
-    
+
     def get(self, request, pk):
-        libro = get_object_or_404(Libro, pk=pk)
-        return render(request, 'biblioteca/libro_devolver.html', {'libro': libro})
+        libroPrestado = get_object_or_404(Libro, pk=pk, disponibilidad='PRE')
+        prestamo = Prestamo.objects.filter(libro=libroPrestado, usuario=request.user).first()
+
+        return render(request, 'biblioteca/libro_devolver.html', {'prestamo': prestamo})
 
     def post(self, request, pk):
-        libro = get_object_or_404(Libro, pk=pk)
+        libro = get_object_or_404(Libro, pk=pk, disponibilidad='PRE')
+        prestamo = Prestamo.objects.filter(libro=libro, usuario=request.user, estado='PRE').first()
+
+        prestamo.fechaDevolucion = date.today()
+        prestamo.estado = 'DEV'
         libro.disponibilidad = 'DIS'
+
+        prestamo.save()
         libro.save()
 
-        Prestamo.objects.create(
-            libro=libro,
-            fechaPrestamo=date.today(),
-            fechaDevolucion=date.today(),
-            usuario=request.user,
-            estado='PRE'
-        )
-
         return redirect('libro_list')
+    
+    
+class MisLibros(ListView):
+    
+    model = Prestamo
+    template_name = 'biblioteca/mis_libros.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+
+        context = super().get_context_data(**kwargs)
+
+        context['libros_disponibles_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='PRE')
+        context['libros_devueltos_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='DEV')
+
+        return context
