@@ -124,6 +124,7 @@ class MisLibros(ListView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
 
         context = super().get_context_data(**kwargs)
+        context['fecha_hoy'] = date.today()
 
         context['libros_disponibles_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='PRE')
         context['libros_devueltos_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='DEV')
