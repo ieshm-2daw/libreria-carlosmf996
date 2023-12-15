@@ -9,35 +9,42 @@
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
 </head>
 <body>
-    <h4>Libros aun Reservados</h4>
+    <div class="contenedorNotaPrestamos">
+        <p class="notaPrestamos"><u>NOTA:</u> Los préstamos caducan a los 15 días</p>
+    </div>
+    <h1>Libros Reservados</h1>
         {% for libro in libros_disponibles_usuario %}
-            <li>
+
                 {% if fecha_hoy > libro.fechaDevolucion %}
-                    <h2><a class="prestamoRetraso" href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h2>
+                    <h4><a class="prestamoRetraso" href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h4>
                 {% else %}
-                    <h2><a href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h2>
+                    <h4><a href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h4>
                 {% endif %}
 
                 {% if libro.libro %}
                     <img src="{{ libro.libro.portada.url }}">
+                    <br>
                 {% endif %}
+                <br>
                 <a href="{% url 'libro_devolver' pk=libro.libro.pk%}" role="button">Devolver</a>
-            </li>
+                <br><br>
+                <hr>
+
         {% empty %}
             <li>No hay libros por mostrar.</li>
         {% endfor %}
             <br><br>
 
-    <h4>Libros Devueltos</h4>
+    <h1>Libros Devueltos</h1>
         {% for libro in libros_devueltos_usuario %}
-            <li>
-                <h2><a href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h2>
+                <h4><a href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h4>
                 {% if libro.libro %}
                     <img src="{{ libro.libro.portada.url }}">
+                    <br><br>
+                    <hr>
                 {% endif %}
-            </li>
         {% empty %}
-            <li>No hay libros por mostrar.</li>
+            <p>No hay libros por mostrar.</p>
         {% endfor %}
     
 </body>

@@ -1,3 +1,31 @@
+body{
+    padding-left: 3vw;
+}
+
+hr{
+
+    height: 15px;
+    border-color: #9f9f9f;
+}
+
 .prestamoRetraso{
-    color: red;
+    color: #9A031E;
+}
+
+.contenedorNotaPrestamos{
+    position: absolute;
+    top: 10%;
+    right: 25%;
+    background-color: #9A031E;
+    width: 25vw;
+    padding-left: 12px;
+    padding-top: 5px;
+    height: 6.5vw;
+
+}
+
+.notaPrestamos{
+    font-weight: bold;
+    font-size: 30px;
+    color: #FB8B24;
 }
