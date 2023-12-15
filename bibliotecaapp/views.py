@@ -23,6 +23,10 @@ class LibroList(ListView):
         context['libros_disponibles'] = Libro.objects.filter(disponibilidad = "DIS")
         context['libros_prestados'] = Libro.objects.filter(disponibilidad = "PRE")
 
+        ##filtro_titulo1 = self.request.GET.get('filtro1')  --> CREA UNA CONDICION PARA EL FILTRO
+        ##queryset = Libro.objects.filter(disponibilidad = 'DIS')   --> CREA UN QUERYSET (ARRAY) CON TODOS LOS LIBROS DISPONIBLES
+        ##self.queryset = self.queryset.filter(titulo__icontains = filtro_titulo1)   --> APLICA AL QUERYSET ANTERIOR EL FILTRO CREADO
+
         return context
 
     ##queryset = Libro.objects.filter(disponibilidad = "DIS")
@@ -121,12 +125,13 @@ class MisLibros(ListView):
     model = Prestamo
     template_name = 'biblioteca/mis_libros.html'
 
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
 
         context = super().get_context_data(**kwargs)
         context['fecha_hoy'] = date.today()
 
-        context['libros_disponibles_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='PRE')
+        context['libros_disponibles_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='PRE').order_by('fechaDevolucion')
         context['libros_devueltos_usuario'] = Prestamo.objects.filter(usuario=self.request.user, estado='DEV')
 
         return context

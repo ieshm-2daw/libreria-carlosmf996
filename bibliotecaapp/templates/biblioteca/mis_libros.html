@@ -12,7 +12,7 @@
     <h4>Libros aun Reservados</h4>
         {% for libro in libros_disponibles_usuario %}
             <li>
-                {% if fecha_hoy > libro.fechaPrestamo %}
+                {% if fecha_hoy > libro.fechaDevolucion %}
                     <h2><a class="prestamoRetraso" href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h2>
                 {% else %}
                     <h2><a href="{% url 'libro_details' pk=libro.libro.pk%}">{{ libro.libro }}</a></h2>
