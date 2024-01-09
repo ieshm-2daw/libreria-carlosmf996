@@ -11,7 +11,9 @@
     <p> {{ libro.titulo }}</p>
 
     <h2>Autor</h2>
-    <p> {{ libro.autor }}</p>
+        {% for autor in libro.autor.all %}
+            <p> {{ autor.nombre }}</p>
+        {% endfor %}
 
     <h2>Editorial</h2>
     <p> {{ libro.editorial }}</p>
