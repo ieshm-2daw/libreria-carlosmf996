@@ -6,6 +6,18 @@
 <body>
     <h1>Lista de Libros</h1>
 
+    <form method="get" name="filtroAutores">
+        {% csrf_token %}
+        <label>Autor</label>
+        <select name="autor" id="autor">
+            <option value="all">Todos</option>
+            {% for autor in autores %}
+            <option value="{{ autor }}">{{ autor.nombre }}</option>
+            {% endfor %}
+            <input type="submit"value="filtrar">
+        </select>
+    </form>
+
     <ul>
         <h4>Libros Disponibles</h4>
         {% for libro in libros_disponibles %}

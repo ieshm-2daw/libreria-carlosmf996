@@ -20,8 +20,16 @@ class LibroList(ListView):
 
         context = super().get_context_data(**kwargs)
 
+        autores = self.request.GET.get('autor')
+
+        context['autores'] = Autor.objects.all()
         context['libros_disponibles'] = Libro.objects.filter(disponibilidad = "DIS")
         context['libros_prestados'] = Libro.objects.filter(disponibilidad = "PRE")
+
+        if autores != "all" and autores != None:
+            autor = Autor.objects.get(nombre = autores)
+            context['libros_disponibles'] = context['libros_disponibles'].filter(autor=autor)
+            context['libros_prestados'] = context['libros_prestados'].filter(autor=autor)
 
         ##filtro_titulo1 = self.request.GET.get('filtro1')  --> CREA UNA CONDICION PARA EL FILTRO
         ##queryset = Libro.objects.filter(disponibilidad = 'DIS')   --> CREA UN QUERYSET (ARRAY) CON TODOS LOS LIBROS DISPONIBLES
