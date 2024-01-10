@@ -29,3 +29,9 @@ hr{
     font-size: 30px;
     color: #FB8B24;
 }
+
+.botonLogout{
+    position: absolute;
+    left: 85vw;
+    bottom: 38vw;
+}

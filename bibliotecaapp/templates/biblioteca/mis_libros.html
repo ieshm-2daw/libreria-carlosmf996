@@ -12,6 +12,7 @@
     <div class="contenedorNotaPrestamos">
         <p class="notaPrestamos"><u>NOTA:</u> Los préstamos caducan a los 15 días</p>
     </div>
+    <a href="{% url 'logout' %}" role="button" class="botonLogout">Cerrar Sesión</a>
     <h1>Libros Reservados</h1>
         {% for libro in libros_disponibles_usuario %}
 
@@ -46,6 +47,7 @@
         {% empty %}
             <p>No hay libros por mostrar.</p>
         {% endfor %}
-    
+
+        <a href="{% url 'libro_list' %}" role="button">Volver al inicio</a>
 </body>
 </html>

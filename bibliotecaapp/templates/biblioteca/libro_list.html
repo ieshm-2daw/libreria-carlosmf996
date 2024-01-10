@@ -1,11 +1,14 @@
+{% load static %}
 <html>
 <head>
     <title>Libros listados</title>    
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
 </head>
 <body>
     <h1>Lista de Libros</h1>
 
+    <a href="{% url 'logout' %}" role="button" class="botonLogout">Cerrar Sesión</a>
     <form method="get" name="filtroAutores">
         {% csrf_token %}
         <label>Autor</label>
@@ -36,6 +39,6 @@
     </ul>
     <br><br>
     <a href="{% url 'new' %}" role="button">Añadir Nuevo</a>
-    <a href="{% url 'mis_libros'%}" role="button">Mis Libros</a>
+    <a href="{% url 'mis_libros' %}" role="button">Mis Libros</a>
 </body>
 </html>

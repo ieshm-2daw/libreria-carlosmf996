@@ -7,11 +7,12 @@ from django.views import View
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
 from .models import Libro, Usuario, Autor, Editorial, Prestamo
 from .forms import LibroForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
 
-class LibroList(ListView):
+class LibroList(LoginRequiredMixin, ListView):
     
     model = Libro
     template_name = 'biblioteca/libro_list.html'
@@ -57,25 +58,25 @@ class LibroList(ListView):
             return redirect('libro_list')
         return render(request, 'biblioteca/new.html', {'form': form})'''
 
-class New(CreateView):
+class New(LoginRequiredMixin, CreateView):
 
     model = Libro
     fields = ["titulo", "autor", "editorial", "rating", "fecha_publicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
     template_name = 'biblioteca/new.html'
     success_url = reverse_lazy("libro_list")
 
-class LibroDetails(DetailView):
+class LibroDetails(LoginRequiredMixin, DetailView):
 
     model = Libro
     template_name = 'biblioteca/libro_details.html'
 
-class LibroDelete(DeleteView):
+class LibroDelete(LoginRequiredMixin, DeleteView):
 
     model = Libro
     template_name = 'biblioteca/libro_delete.html'
     success_url = reverse_lazy("libro_list")
 
-class Edit(UpdateView):
+class Edit(LoginRequiredMixin, UpdateView):
 
     model = Libro
     fields = ["titulo", "autor", "editorial", "rating", "fecha_publicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
@@ -83,7 +84,7 @@ class Edit(UpdateView):
     success_url = reverse_lazy("libro_list")
 
 
-class Reserva(View):
+class Reserva(LoginRequiredMixin, View):
     
     def get(self, request, pk):
         libro = get_object_or_404(Libro, pk=pk)
@@ -106,7 +107,7 @@ class Reserva(View):
 
         return redirect('libro_list')
     
-class Devolver(View):
+class Devolver(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         libroPrestado = get_object_or_404(Libro, pk=pk, disponibilidad='PRE')
@@ -128,7 +129,7 @@ class Devolver(View):
         return redirect('libro_list')
     
     
-class MisLibros(ListView):
+class MisLibros(LoginRequiredMixin, ListView):
     
     model = Prestamo
     template_name = 'biblioteca/mis_libros.html'
